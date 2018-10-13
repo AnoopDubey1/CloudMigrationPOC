@@ -1,0 +1,113 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.File;
+
+namespace DemoWebApp.Controllers
+{
+    public class HomeController : Controller
+    {
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        public ActionResult About()
+        {
+            ViewBag.Message = $"Your application description page from Environment:{ConfigurationManager.AppSettings["appMode"]}";
+            ViewBag.Files = GetFiles();
+            return View();
+        }
+
+        public IEnumerable<dynamic> GetFiles()
+        {
+            var uploadDir = GetUploadDir();
+            var counter=1;
+            foreach (var file in uploadDir.ListFilesAndDirectories().OfType<CloudFile>())
+            {
+                file.FetchAttributes();
+                dynamic eo =new  System.Dynamic.ExpandoObject();
+                eo.Sl = counter++;
+                eo.Name = file.Metadata["filename"];
+                eo.Size = file.Properties.Length;
+                eo.id = file.Name;
+                yield return eo;
+            }
+        }
+
+        public async Task File(string id)
+        {
+            var uploadDir = GetUploadDir();
+           var file= uploadDir.GetFileReference(id);
+            //file.BeginDownloadToStream()
+            file.FetchAttributes();
+
+            Response.ContentType = file.Properties.ContentType;
+            Response.AddHeader("Content-Disposition", "Attachment;filename=" + file.Metadata["filename"]);
+            Response.AddHeader("Content-Length", file.Properties.Length.ToString());
+           await file.DownloadToStreamAsync(Response.OutputStream);
+        }
+
+        public ActionResult Contact()
+        {
+            ViewBag.Message = "Your contact page.";
+
+            return View();
+        }
+
+        CloudFileDirectory GetUploadDir()
+        {
+                var storageAccount = CloudStorageAccount.Parse(ConfigurationManager.AppSettings["storagekey"]);
+                var fileClient = storageAccount.CreateCloudFileClient();
+                CloudFileShare share = fileClient.GetShareReference("fileupload");
+                if (share.Exists())
+                {
+                    // Get a reference to the root directory for the share.
+                    CloudFileDirectory rootDir = share.GetRootDirectoryReference();
+                    // Get a reference to the directory we created previously.
+                    CloudFileDirectory uploadDir = rootDir.GetDirectoryReference("Uploads");
+                    // Ensure that the directory exists.
+                    if (uploadDir.Exists())
+                    {
+                        return uploadDir;
+                    }
+                }
+
+           throw new  InvalidOperationException("Uploads directory doesnt exists.");
+        }
+
+
+        [HttpPost]
+        public async Task<ActionResult> UploadFile(HttpPostedFileBase fileupd)
+        {
+            if (fileupd.ContentLength > 0)
+            {
+                if (fileupd.ContentLength > 1024)
+                {
+                    ViewBag.OperationResponseMsg = "File shouldn't be more than 1KB";
+                    return RedirectToAction("About");
+                }
+
+                var uploadDir = GetUploadDir();
+
+                // Get a reference to the file we created previously.
+                CloudFile file = uploadDir.GetFileReference(Guid.NewGuid().ToString("N"));
+                file.Metadata["filename"] = Path.GetFileName(fileupd.FileName);
+                await file.UploadFromStreamAsync(fileupd.InputStream);
+                ViewBag.OperationResponseMsg = "File uploaded successfully.";
+
+
+            }
+
+            return RedirectToAction("About");
+        }
+    }
+}

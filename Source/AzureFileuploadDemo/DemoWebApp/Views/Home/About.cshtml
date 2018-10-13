@@ -1,0 +1,37 @@
+﻿@{
+    ViewBag.Title = "About";
+}
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+
+<p>Use this area to provide additional information.</p>
+
+@using (Html.BeginForm("UploadFile", "", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <h3>@ViewBag.OperationResponseMsg</h3>
+    <section title="Upload file">
+        <h1>Upload file</h1>
+        <input type="file" name="fileupd" />
+        <input type="submit" value="Upload" />
+    </section>
+}
+
+<section>
+    <h2>Uploaded file list</h2>
+    <table class="table">
+        <tr>
+            <th>Sl#</th>
+            <th>Name</th>
+            <th>Size</th>
+        </tr>
+      
+        @foreach (dynamic file in ViewBag.Files)
+        {
+            <tr>
+                <td> @file.Sl</td>
+                <td> <a href="File?id=@file.id"> @file.Name</a></td>
+                <td> @file.Size</td>
+            </tr>
+        }
+    </table>
+</section>
