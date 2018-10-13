@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<h3>@ViewBag.Message</h3>
+
+@using (Html.BeginForm("log", "Logger", FormMethod.Post))
+{
+    <input type="hidden" id="logtype" name="logtype"/>
+    <input id="btnlogInfo" type="submit" value="Log Info" onclick="logtype.value=1" />
+    <input id="btnlogWarning" type="submit" value="Log Warning"  onclick="logtype.value=2" />
+    <input id="btnlogError" type="submit"  value="Log Error"  onclick="logtype.value=3" />
+}
