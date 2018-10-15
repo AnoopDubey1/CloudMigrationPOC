@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using DemoWebApp.Support;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.File;
 
@@ -15,6 +16,14 @@ namespace DemoWebApp.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly ICloudService _cloudService;
+
+        public HomeController(ICloudService cloudService)
+        {
+            _cloudService = cloudService;
+        }
+
+
         public ActionResult Index()
         {
             return View();
@@ -29,7 +38,7 @@ namespace DemoWebApp.Controllers
 
         public IEnumerable<dynamic> GetFiles()
         {
-            var uploadDir = GetUploadDir();
+            var uploadDir = _cloudService.GetFileShare("fileupload\\uploads");
             var counter=1;
             foreach (var file in uploadDir.ListFilesAndDirectories().OfType<CloudFile>())
             {
@@ -45,7 +54,7 @@ namespace DemoWebApp.Controllers
 
         public async Task File(string id)
         {
-            var uploadDir = GetUploadDir();
+            var uploadDir = _cloudService.GetFileShare("fileupload\\uploads"); 
            var file= uploadDir.GetFileReference(id);
             //file.BeginDownloadToStream()
             file.FetchAttributes();
@@ -63,26 +72,7 @@ namespace DemoWebApp.Controllers
             return View();
         }
 
-        CloudFileDirectory GetUploadDir()
-        {
-                var storageAccount = CloudStorageAccount.Parse(ConfigurationManager.AppSettings["storagekey"]);
-                var fileClient = storageAccount.CreateCloudFileClient();
-                CloudFileShare share = fileClient.GetShareReference("fileupload");
-                if (share.Exists())
-                {
-                    // Get a reference to the root directory for the share.
-                    CloudFileDirectory rootDir = share.GetRootDirectoryReference();
-                    // Get a reference to the directory we created previously.
-                    CloudFileDirectory uploadDir = rootDir.GetDirectoryReference("Uploads");
-                    // Ensure that the directory exists.
-                    if (uploadDir.Exists())
-                    {
-                        return uploadDir;
-                    }
-                }
-
-           throw new  InvalidOperationException("Uploads directory doesnt exists.");
-        }
+      
 
 
         [HttpPost]
@@ -96,7 +86,7 @@ namespace DemoWebApp.Controllers
                     return RedirectToAction("About");
                 }
 
-                var uploadDir = GetUploadDir();
+                var uploadDir = _cloudService.GetFileShare("fileupload\\uploads");
 
                 // Get a reference to the file we created previously.
                 CloudFile file = uploadDir.GetFileReference(Guid.NewGuid().ToString("N"));

@@ -7,6 +7,8 @@ using System.Diagnostics;
 using Serilog.Core;
 using Unity;
 using Serilog.Events;
+using DemoWebApp.Support;
+using Unity.Lifetime;
 
 namespace DemoWebApp
 {
@@ -58,7 +60,7 @@ namespace DemoWebApp
                 .MinimumLevel.Warning()
                 .CreateLogger();
             container.RegisterInstance<ILogger>(log);
-
+            container.RegisterType<ICloudService, CloudHelper>(new ContainerControlledLifetimeManager());
         }
     }
 
