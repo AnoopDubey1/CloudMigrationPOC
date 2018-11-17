@@ -23,15 +23,26 @@ namespace DemoWebApp.Support
             }
 
             directory = share.GetRootDirectoryReference();
-
-            for (int i = 1; i < folderPath.Length && directory.Exists(); i++)
+            
+            if (!createIfDoesntExist)
             {
-                directory = directory.GetDirectoryReference(folderPath[i]);
-
-                //Create if directory doesnt exists
-                if (createIfDoesntExist && !directory.Exists())
+                //Avoid loop if directory neednt be created
+                if (folderPath.Length > 1)
                 {
-                    directory.Create();
+                    directory = directory.GetDirectoryReference(string.Join("/", folderPath.Skip(1)));
+                }
+            }
+            else
+            {
+                //Loop if directories need to be checked for existance
+                for (int i = 1; i < folderPath.Length && directory.Exists(); i++)
+                {
+                    directory = directory.GetDirectoryReference(folderPath[i]);
+                    //Create if directory doesnt exists
+                    if (!directory.Exists())
+                    {
+                        directory.Create();
+                    }
                 }
             }
 

@@ -78,7 +78,7 @@ namespace DemoWebApp.Controllers
         [HttpPost]
         public async Task<ActionResult> UploadFile(HttpPostedFileBase fileupd)
         {
-            if (fileupd.ContentLength > 0)
+            if (fileupd?.ContentLength > 0)
             {
                 if (fileupd.ContentLength > 1024)
                 {
