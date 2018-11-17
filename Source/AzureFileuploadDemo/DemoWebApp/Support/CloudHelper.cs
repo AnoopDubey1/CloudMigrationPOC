@@ -8,9 +8,9 @@ using Microsoft.WindowsAzure.Storage.File;
 
 namespace DemoWebApp.Support
 {
-    public class CloudHelper:ICloudService
+    public class CloudHelper : ICloudService
     {
-        public  CloudFileDirectory GetFileShare(string dirname)
+        public CloudFileDirectory GetFileShare(string dirname, bool createIfDoesntExist = false)
         {
             var storageAccount = CloudStorageAccount.Parse(ConfigurationManager.AppSettings["storagekey"]);
             var fileClient = storageAccount.CreateCloudFileClient();
@@ -21,13 +21,17 @@ namespace DemoWebApp.Support
             {
                 throw new InvalidOperationException(string.Format("{0}share doesnt exists.", folderPath[0]));
             }
+
             directory = share.GetRootDirectoryReference();
 
-            for (int i = 1; i < folderPath.Length; i++)
+            for (int i = 1; i < folderPath.Length && directory.Exists(); i++)
             {
-                if (share.Exists())
+                directory = directory.GetDirectoryReference(folderPath[i]);
+
+                //Create if directory doesnt exists
+                if (createIfDoesntExist && !directory.Exists())
                 {
-                    directory = directory.GetDirectoryReference(folderPath[i]);
+                    directory.Create();
                 }
             }
 
@@ -42,6 +46,6 @@ namespace DemoWebApp.Support
 
     public interface ICloudService
     {
-        CloudFileDirectory GetFileShare(string dirname);
+        CloudFileDirectory GetFileShare(string dirname, bool createIfDoesntExist = false);
     }
 }

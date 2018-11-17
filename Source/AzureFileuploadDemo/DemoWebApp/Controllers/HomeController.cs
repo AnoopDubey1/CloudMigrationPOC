@@ -85,8 +85,8 @@ namespace DemoWebApp.Controllers
                     ViewBag.OperationResponseMsg = "File shouldn't be more than 1KB";
                     return RedirectToAction("About");
                 }
-
-                var uploadDir = _cloudService.GetFileShare("fileupload\\uploads");
+                
+                var uploadDir = _cloudService.GetFileShare("fileupload\\uploads",true);
 
                 // Get a reference to the file we created previously.
                 CloudFile file = uploadDir.GetFileReference(Guid.NewGuid().ToString("N"));
