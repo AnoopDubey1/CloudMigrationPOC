@@ -8,9 +8,9 @@ using Microsoft.WindowsAzure.Storage.File;
 
 namespace DemoWebApp.Support
 {
-    public class CloudHelper:ICloudService
+    public class CloudHelper : ICloudService
     {
-        public  CloudFileDirectory GetFileShare(string dirname)
+        public CloudFileDirectory GetFileShare(string dirname, bool createIfDoesntExist = false)
         {
             var storageAccount = CloudStorageAccount.Parse(ConfigurationManager.AppSettings["storagekey"]);
             var fileClient = storageAccount.CreateCloudFileClient();
@@ -21,13 +21,28 @@ namespace DemoWebApp.Support
             {
                 throw new InvalidOperationException(string.Format("{0}share doesnt exists.", folderPath[0]));
             }
-            directory = share.GetRootDirectoryReference();
 
-            for (int i = 1; i < folderPath.Length; i++)
+            directory = share.GetRootDirectoryReference();
+            
+            if (!createIfDoesntExist)
             {
-                if (share.Exists())
+                //Avoid loop if directory neednt be created
+                if (folderPath.Length > 1)
+                {
+                    directory = directory.GetDirectoryReference(string.Join("/", folderPath.Skip(1)));
+                }
+            }
+            else
+            {
+                //Loop if directories need to be checked for existance
+                for (int i = 1; i < folderPath.Length && directory.Exists(); i++)
                 {
                     directory = directory.GetDirectoryReference(folderPath[i]);
+                    //Create if directory doesnt exists
+                    if (!directory.Exists())
+                    {
+                        directory.Create();
+                    }
                 }
             }
 
@@ -42,6 +57,6 @@ namespace DemoWebApp.Support
 
     public interface ICloudService
     {
-        CloudFileDirectory GetFileShare(string dirname);
+        CloudFileDirectory GetFileShare(string dirname, bool createIfDoesntExist = false);
     }
 }
