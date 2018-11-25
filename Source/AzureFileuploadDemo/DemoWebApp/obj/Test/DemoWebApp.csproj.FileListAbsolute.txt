@@ -216,3 +216,5 @@ D:\Wip\Git\CloudMigrationPOC\Source\AzureFileuploadDemo\DemoWebApp\obj\Test\Demo
 D:\Wip\Git\CloudMigrationPOC\Source\AzureFileuploadDemo\DemoWebApp\obj\Test\DemoWebApp.csproj.CopyComplete
 D:\Wip\Git\CloudMigrationPOC\Source\AzureFileuploadDemo\DemoWebApp\obj\Test\DemoWebApp.dll
 D:\Wip\Git\CloudMigrationPOC\Source\AzureFileuploadDemo\DemoWebApp\obj\Test\DemoWebApp.pdb
+D:\Wip\Git\CloudMigrationPOC\Source\AzureFileuploadDemo\DemoWebApp\bin\EPPlus.dll
+D:\Wip\Git\CloudMigrationPOC\Source\AzureFileuploadDemo\DemoWebApp\bin\EPPlus.xml

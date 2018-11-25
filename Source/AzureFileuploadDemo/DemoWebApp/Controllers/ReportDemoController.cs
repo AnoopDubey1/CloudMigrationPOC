@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -24,8 +25,11 @@ namespace DemoWebApp.Controllers
 
             //reportViewer.
             reportViewer.ServerReport.ReportServerCredentials=new ReportServerCredentials();
+            var reportParams = new ReportParameter[1];
+            reportParams[0] = new ReportParameter("ConnectionString", ConfigurationManager.AppSettings["reportconstring"],false);
             reportViewer.ServerReport.ReportPath = "/SSRSDemo/Sales Orders";
-            reportViewer.ServerReport.ReportServerUrl = new Uri("https://suryadbpoc.centralindia.cloudapp.azure.com/ReportServer/");
+            reportViewer.ServerReport.ReportServerUrl = new Uri("https://suryadbvm.centralindia.cloudapp.azure.com/ReportServer/");
+            reportViewer.ServerReport.SetParameters(reportParams);
 
             ViewBag.ReportViewer = reportViewer;
 

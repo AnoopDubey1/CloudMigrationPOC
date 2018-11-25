@@ -19,7 +19,7 @@ namespace DemoWebApp
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-
+            var certs = new[] {"73db78163c244cf21a3d33b725570878f7b37654", "701dc38e61d9b338aefe2a09fb943d291f66c122"};
             //Todo: Can remove this if reporting server is using valid certificate
             ServicePointManager.ServerCertificateValidationCallback += delegate(
                 object s,
@@ -28,8 +28,7 @@ namespace DemoWebApp
                 SslPolicyErrors sslPolicyErrors
             )
             {
-                if (certificate.GetCertHashString().Equals("73db78163c244cf21a3d33b725570878f7b37654",
-                    StringComparison.InvariantCultureIgnoreCase))
+                if (certs.Any(a=>a.Equals(certificate.GetCertHashString(),StringComparison.InvariantCultureIgnoreCase)))
                 {
                     return true;
                 }

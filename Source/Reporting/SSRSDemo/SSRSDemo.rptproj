@@ -12,7 +12,7 @@
     <TargetDatasetFolder>Datasets</TargetDatasetFolder>
     <TargetDatasourceFolder>Data Sources</TargetDatasourceFolder>
     <TargetReportPartFolder>Report Parts</TargetReportPartFolder>
-    <TargetServerURL>https://suryadbpoc.centralindia.cloudapp.azure.com/reportserver</TargetServerURL>
+    <TargetServerURL>https://suryadbvm.centralindia.cloudapp.azure.com/reportserver</TargetServerURL>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'DebugLocal' ">
     <FullPath>DebugLocal</FullPath>
@@ -48,6 +48,9 @@
     <DataSets>@(DataSet)</DataSets>
     <Reports>@(Report)</Reports>
   </PropertyGroup>
+  <ItemGroup>
+    <DataSource Include="AdventureWorks2017.rds" />
+  </ItemGroup>
   <ItemGroup>
     <Report Include="Sales Orders.rdl" />
   </ItemGroup>
