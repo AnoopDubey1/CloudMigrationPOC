@@ -3,23 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Web;
-
+using System.IO;
 namespace DemoWebApp.Support
 {
-    public class ExcelToEntityConversion
+    public static class ExcelImporter
     {
-        public  List<T> GetClassFromExcel<T>(string path,int fromRow,int fromColumn, int toColumn = 0) where T: class
+        public static IList<T> ReadToList<T>(string path,int fromRow,int fromColumn, int toColumn = 0) where T: class
         {
             using (var excelpack = new OfficeOpenXml.ExcelPackage())
             {
                 List<T> getList = new List<T>();
 
-                using (var stream = System.IO.File.OpenRead(path))
+                using (var stream = File.OpenRead(path))
                 {
                     excelpack.Load(stream);
 
                 }
-
                 var ws = excelpack.Workbook.Worksheets.First();
                 toColumn = toColumn == 0 ? typeof(T).GetProperties().Count() : toColumn;
 
@@ -27,13 +26,13 @@ namespace DemoWebApp.Support
                 {
                     T objT = Activator.CreateInstance<T>();
                     Type myType = typeof(T);
-                    PropertyInfo[] myprop = myType.GetProperties();
+                    PropertyInfo[] myprop =  myType.GetProperties();
 
                     var wsRow = ws.Cells[rownum, fromColumn, rownum, toColumn];
 
                     for(int i=0;i<myprop.Count();i++)
                     {
-                        myprop[i].SetValue(objT, wsRow[rownum, fromColumn + i].Text);
+                        myprop[i].SetValue(objT, Convert.ChangeType(wsRow[rownum, fromColumn + i].Value, myprop[i].PropertyType));
                     }
 
                     getList.Add(objT);
@@ -54,6 +53,6 @@ namespace DemoWebApp.Support
         public string Product { get; set; }
         public string BuyerUpcCode { get; set; }
         public int Quantity { get; set; }
-        public float Rate { get; set; }
+        public double Rate { get; set; }
     }
 }
