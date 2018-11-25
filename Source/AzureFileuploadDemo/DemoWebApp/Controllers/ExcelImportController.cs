@@ -12,14 +12,11 @@ namespace DemoWebApp.Controllers
 {
     public class ExcelImportController : Controller
     {
-        // GET: ExcelImport
         public ActionResult Index()
-        {
-            List<SaleOrder> saleorderlist = new List<SaleOrder>();
+        {      
             string excelPath = ConfigurationManager.AppSettings["exceppath"];
-            var obj = new ExcelToEntityConversion();
-            saleorderlist = obj.GetClassFromExcel<SaleOrder>(excelPath, 1, 1, 1);
-            
+
+            IList<SaleOrder> saleorderlist = ExcelImporter.ReadToList<SaleOrder>(excelPath, 2, 1);
 
             return View();
         }
