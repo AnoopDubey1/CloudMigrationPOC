@@ -3,7 +3,7 @@
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
-    <DataSource Name="AdventureWorks2017">
+    <DataSource Name="AdventureWorks2016">
       <ConnectionProperties>
         <DataProvider>SQL</DataProvider>
         <ConnectString>=Parameters!ConnectionString.Value</ConnectString>
@@ -15,7 +15,7 @@
   <DataSets>
     <DataSet Name="AdventureWorksDataset">
       <Query>
-        <DataSourceName>AdventureWorks2017</DataSourceName>
+        <DataSourceName>AdventureWorks2016</DataSourceName>
         <CommandText>SELECT   
    soh.OrderDate AS [Date],   
    soh.SalesOrderNumber AS [Order],   

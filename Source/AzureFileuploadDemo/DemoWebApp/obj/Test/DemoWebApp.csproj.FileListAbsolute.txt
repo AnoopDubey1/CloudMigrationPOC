@@ -203,7 +203,6 @@ D:\Wip\Git\CloudMigrationPOC\Source\AzureFileuploadDemo\DemoWebApp\bin\System.We
 D:\Wip\Git\CloudMigrationPOC\Source\AzureFileuploadDemo\DemoWebApp\bin\System.Web.WebPages.Razor.xml
 D:\Wip\Git\CloudMigrationPOC\Source\AzureFileuploadDemo\DemoWebApp\bin\System.Web.Optimization.xml
 D:\Wip\Git\CloudMigrationPOC\Source\AzureFileuploadDemo\DemoWebApp\bin\Newtonsoft.Json.xml
-D:\Wip\Git\CloudMigrationPOC\Source\AzureFileuploadDemo\DemoWebApp\bin\Unity.Mvc.xml
 D:\Wip\Git\CloudMigrationPOC\Source\AzureFileuploadDemo\DemoWebApp\bin\Antlr3.Runtime.pdb
 D:\Wip\Git\CloudMigrationPOC\Source\AzureFileuploadDemo\DemoWebApp\bin\System.Diagnostics.DiagnosticSource.xml
 D:\Wip\Git\CloudMigrationPOC\Source\AzureFileuploadDemo\DemoWebApp\bin\Microsoft.AspNet.TelemetryCorrelation.xml
@@ -218,3 +217,5 @@ D:\Wip\Git\CloudMigrationPOC\Source\AzureFileuploadDemo\DemoWebApp\obj\Test\Demo
 D:\Wip\Git\CloudMigrationPOC\Source\AzureFileuploadDemo\DemoWebApp\obj\Test\DemoWebApp.pdb
 D:\Wip\Git\CloudMigrationPOC\Source\AzureFileuploadDemo\DemoWebApp\bin\EPPlus.dll
 D:\Wip\Git\CloudMigrationPOC\Source\AzureFileuploadDemo\DemoWebApp\bin\EPPlus.xml
+D:\Wip\Git\CloudMigrationPOC\Source\AzureFileuploadDemo\DemoWebApp\bin\SqlServerTypes\x64\SqlServerSpatial110.dll
+D:\Wip\Git\CloudMigrationPOC\Source\AzureFileuploadDemo\DemoWebApp\bin\Microsoft.SqlServer.Types.dll
