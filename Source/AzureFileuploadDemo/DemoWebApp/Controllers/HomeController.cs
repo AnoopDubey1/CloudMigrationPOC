@@ -67,7 +67,7 @@ namespace DemoWebApp.Controllers
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = $"Your contact page. Date:{DateTime.Now}";
 
             return View();
         }
