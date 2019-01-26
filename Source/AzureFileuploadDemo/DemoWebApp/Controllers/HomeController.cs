@@ -72,6 +72,12 @@ namespace DemoWebApp.Controllers
             return View();
         }
 
+        public ActionResult Cookie()
+        {
+            Response.Cookies.Add(new HttpCookie("test","test val"));
+
+            return RedirectToAction("Contact");
+        }
       
 
 

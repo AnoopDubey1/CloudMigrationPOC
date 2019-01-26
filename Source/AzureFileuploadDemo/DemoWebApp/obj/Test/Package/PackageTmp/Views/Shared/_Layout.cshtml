@@ -42,8 +42,8 @@
                         <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                             <!-- The Profile picture inserted via div class below, with shaping provided by Bootstrap -->
                             @{
-                                var images = new[] {"abcdef.jpg", "female-88.jpg", "gaurav.JPG", "male-17.jpg", "male-82.jpg"};
-                                var randindx = new Random().Next(0,4);
+                                var images = new[] { "abcdef.jpg", "female-88.jpg", "gaurav.JPG", "male-17.jpg", "male-82.jpg" };
+                                var randindx = new Random().Next(0, 4);
                             }
 
                             <img src="~/Imagehandler/ProfilePic?name=@images[randindx]" class="img-circle profile-img" />
@@ -66,6 +66,7 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js" ></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

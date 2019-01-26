@@ -1,0 +1,13 @@
+﻿@using ReportViewerForMvc
+@model dynamic
+
+@{
+    ViewBag.Title = "Local Report Demo";
+}
+
+<h2>Local Report</h2>
+
+
+@Html.ReportViewer(
+    ViewBag.ReportViewer as Microsoft.Reporting.WebForms.ReportViewer,
+    new { scrolling = "no", width="100%" })

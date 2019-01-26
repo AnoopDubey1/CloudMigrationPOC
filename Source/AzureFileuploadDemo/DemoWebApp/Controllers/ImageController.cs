@@ -27,5 +27,15 @@ namespace DemoWebApp.Controllers
             await imagefile.DownloadToStreamAsync(Response.OutputStream);
         }
 
+        [HttpGet]
+        public async Task DesignerImages(string name,string path)
+        {
+            var dir = _cloudService.GetFileShare($"fileupload\\uploads\\{path}");
+            var imagefile = dir.GetFileReference(name);
+            Response.ContentType = "image/png";
+            await imagefile.DownloadToStreamAsync(Response.OutputStream);
+        }
+
+
     }
 }
