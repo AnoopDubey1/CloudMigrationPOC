@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
@@ -14,6 +16,13 @@ namespace DemoWebApp.Controllers
 {
     public class ReportDemoController : Controller
     {
+        private ICloudService _cloudService;
+
+        public ReportDemoController(ICloudService cloudService)
+        {
+            this._cloudService = cloudService;
+        }
+
         // GET: ReportDemo
         public ActionResult Index()
         {
@@ -41,8 +50,21 @@ namespace DemoWebApp.Controllers
             return View();
         }
 
+        async Task<string> DownloadReportImages(string name, string path)
+        {
+            var dir = _cloudService.GetFileShare($"fileupload\\uploads\\{path}");
+            var imagefile = dir.GetFileReference(name);
+            var tempfile = Path.Combine(Path.GetTempPath(), name);
 
-        public ActionResult LocalReport()
+            using (var tempfiles = System.IO.File.OpenWrite(tempfile))
+            {
+              await imagefile.DownloadToStreamAsync(tempfiles);
+            }
+            return tempfile;
+        }
+
+
+        public async Task<ActionResult> LocalReport()
         {
             var reportViewer = new ReportViewer()
             {
@@ -54,10 +76,14 @@ namespace DemoWebApp.Controllers
 
             reportViewer.LocalReport.ReportPath = Server.MapPath("~/Reports/Localreport.rdlc");
             reportViewer.LocalReport.EnableExternalImages = true;
-            ;
+
+            var tempfiles = new List<string>();
+            tempfiles.Add(await DownloadReportImages("TestCase12_c6ff6d03-94b6-4b28-9984-250799a6199a.jpg", "b2d257f9-2766-491b-beed-bc618b126743"));
+
             reportViewer.LocalReport.SetParameters(new List<ReportParameter>
             {
-                new ReportParameter("txtParam","Local Demo Report"),new ReportParameter("imagePath",string.Format("{0}/ImageHandler/DesignerImages?name=TestCase12_c6ff6d03-94b6-4b28-9984-250799a6199a.jpg&path=b2d257f9-2766-491b-beed-bc618b126743",Request.Url.GetLeftPart(UriPartial.Authority)))
+
+                new ReportParameter("txtParam","Local Demo Report"),new ReportParameter("imagePath","file://"+ tempfiles[0])
             });
 
 
@@ -85,7 +111,16 @@ namespace DemoWebApp.Controllers
                 out fileNameExtension,
                 out streams,
                 out warnings);
-
+            
+            //Cleanup
+            foreach (var tempfile in tempfiles)
+            {
+                if (System.IO.File.Exists(tempfile))
+                {
+                    System.IO.File.Delete(tempfile);
+                }
+            }
+            
             return File(pdfBytes, "application/pdf");
 
             //ViewBag.ReportViewer = reportViewer;
