@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.File;
@@ -53,10 +55,23 @@ namespace DemoWebApp.Support
 
             throw new InvalidOperationException(string.Format("{0} directory doesnt exists.", directory.Name));
         }
+
+        public async Task WriteToFile(string cloudFilePath, string destFilePath)
+        {
+            var fileSharePath = Path.GetDirectoryName(cloudFilePath);
+            var dir = GetFileShare(fileSharePath);
+            var fileName = Path.GetFileName(cloudFilePath);
+            var fileRef = dir.GetFileReference(fileName);
+            using (var tempfile = System.IO.File.OpenWrite(destFilePath))
+            {
+                await fileRef.DownloadToStreamAsync(tempfile);
+            }
+        }
     }
 
     public interface ICloudService
     {
         CloudFileDirectory GetFileShare(string dirname, bool createIfDoesntExist = false);
+        Task WriteToFile(string cloudFilePath, string destFilePath);
     }
 }

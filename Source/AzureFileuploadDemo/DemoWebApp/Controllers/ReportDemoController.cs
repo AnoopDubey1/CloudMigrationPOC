@@ -52,14 +52,8 @@ namespace DemoWebApp.Controllers
 
         async Task<string> DownloadReportImages(string name, string path)
         {
-            var dir = _cloudService.GetFileShare($"fileupload\\uploads\\{path}");
-            var imagefile = dir.GetFileReference(name);
             var tempfile = Path.Combine(Path.GetTempPath(), name);
-
-            using (var tempfiles = System.IO.File.OpenWrite(tempfile))
-            {
-              await imagefile.DownloadToStreamAsync(tempfiles);
-            }
+            await _cloudService.WriteToFile(Path.Combine($"fileupload\\uploads\\{path}", name), tempfile);
             return tempfile;
         }
 
