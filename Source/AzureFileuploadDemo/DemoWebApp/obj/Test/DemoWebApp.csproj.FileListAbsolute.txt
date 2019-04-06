@@ -210,7 +210,6 @@ D:\Wip\Git\CloudMigrationPOC\Source\AzureFileuploadDemo\DemoWebApp\bin\Microsoft
 D:\Wip\Git\CloudMigrationPOC\Source\AzureFileuploadDemo\DemoWebApp\bin\Microsoft.AI.WindowsServer.xml
 D:\Wip\Git\CloudMigrationPOC\Source\AzureFileuploadDemo\DemoWebApp\bin\Microsoft.AI.Web.xml
 D:\Wip\Git\CloudMigrationPOC\Source\AzureFileuploadDemo\DemoWebApp\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-D:\Wip\Git\CloudMigrationPOC\Source\AzureFileuploadDemo\DemoWebApp\obj\Test\DemoWebApp.csprojAssemblyReference.cache
 D:\Wip\Git\CloudMigrationPOC\Source\AzureFileuploadDemo\DemoWebApp\obj\Test\DemoWebApp.csproj.CoreCompileInputs.cache
 D:\Wip\Git\CloudMigrationPOC\Source\AzureFileuploadDemo\DemoWebApp\obj\Test\DemoWebApp.csproj.CopyComplete
 D:\Wip\Git\CloudMigrationPOC\Source\AzureFileuploadDemo\DemoWebApp\obj\Test\DemoWebApp.dll
@@ -219,3 +218,9 @@ D:\Wip\Git\CloudMigrationPOC\Source\AzureFileuploadDemo\DemoWebApp\bin\EPPlus.dl
 D:\Wip\Git\CloudMigrationPOC\Source\AzureFileuploadDemo\DemoWebApp\bin\EPPlus.xml
 D:\Wip\Git\CloudMigrationPOC\Source\AzureFileuploadDemo\DemoWebApp\bin\SqlServerTypes\x64\SqlServerSpatial110.dll
 D:\Wip\Git\CloudMigrationPOC\Source\AzureFileuploadDemo\DemoWebApp\bin\Microsoft.SqlServer.Types.dll
+D:\Wip\Git\CloudMigrationPOC\Source\AzureFileuploadDemo\DemoWebApp\bin\System.Net.Http.Formatting.dll
+D:\Wip\Git\CloudMigrationPOC\Source\AzureFileuploadDemo\DemoWebApp\bin\System.Web.Http.dll
+D:\Wip\Git\CloudMigrationPOC\Source\AzureFileuploadDemo\DemoWebApp\bin\System.Web.Http.WebHost.dll
+D:\Wip\Git\CloudMigrationPOC\Source\AzureFileuploadDemo\DemoWebApp\bin\System.Net.Http.Formatting.xml
+D:\Wip\Git\CloudMigrationPOC\Source\AzureFileuploadDemo\DemoWebApp\bin\System.Web.Http.xml
+D:\Wip\Git\CloudMigrationPOC\Source\AzureFileuploadDemo\DemoWebApp\bin\System.Web.Http.WebHost.xml
