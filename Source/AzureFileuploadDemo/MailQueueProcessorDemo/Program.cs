@@ -43,9 +43,9 @@ namespace MailQueueProcessorDemo
             // Retrieve a reference to a container.
             CloudQueue queue = queueClient.GetQueueReference("pocmailrecords");
             var blobContainer = blobClient.GetContainerReference("pocmailstorage");
-           
+
             // Create the queue if it doesn't already exist
-           // queue.CreateIfNotExists();
+            // queue.CreateIfNotExists();
             try
             {
                 while (true)
@@ -66,6 +66,10 @@ namespace MailQueueProcessorDemo
                     for (int i = 0; i < msgContent.attachmentCount; i++)
                     {
                         var filenameBlob = blobContainer.GetBlobReference($"{msgContent.messageid}-{i}");
+                        if (!filenameBlob.Exists())
+                        {
+                            continue;
+                        }
                         using (var memStr = new MemoryStream())
                         {
                             filenameBlob.DownloadToStream(memStr);
@@ -76,12 +80,14 @@ namespace MailQueueProcessorDemo
                             var fileContentRaw = Encoding.UTF8.GetString(Convert.FromBase64String(fileContent.ContentBytes));
                             Console.WriteLine($"File content:{fileContent.Name}\r\n{fileContentRaw}");
                         }
+
                     }
 
                     queue.DeleteMessage(queueMsg);
                 }
 
-            }catch(Exception exp)
+            }
+            catch (Exception exp)
             {
                 Console.WriteLine(exp);
             }
